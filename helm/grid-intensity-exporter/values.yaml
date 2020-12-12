@@ -1,8 +1,8 @@
 gridIntensity:
-  provider: carbonintensity.org.uk" 
+  provider: carbonintensity.org.uk
   region: UK
 
 image:
-  repository: "thegreenwebfoundation/grid-intensity-exporter"
-  tag: "latest"
+  repository: thegreenwebfoundation/grid-intensity-exporter
+  tag: latest
   pullPolicy: IfNotPresent
