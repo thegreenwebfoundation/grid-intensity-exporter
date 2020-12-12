@@ -1,0 +1,8 @@
+gridIntensity:
+  provider: gridintensity.org.uk
+  region: UK
+
+image:
+  repository: "thegreenwebfoundation/grid-intensity-exporter"
+  tag: "0.1.0"
+  pullPolicy: IfNotPresent
