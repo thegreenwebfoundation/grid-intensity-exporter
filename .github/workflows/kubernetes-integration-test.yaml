@@ -40,10 +40,10 @@ jobs:
         uses: azure/setup-kubectl@v1
       - 
         name: Wait for ready pod
-        run: while [[ $(kubectl get pods -l app.kubernetes.io/name=grid-intensity-exporter -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do echo "waiting for pod" && sleep 1; done
+        run: kubectl wait --for=condition=ready --label app.kubernetes.io/name=grid-intensity-exporter pod
       - 
         name: Create port forward to metrics port
-        run: kubectl port-forward deployment/grid-intensity-exporter 8000:8000
+        run: kubectl port-forward deployment/grid-intensity-exporter 8000:8000 &
       - 
         name: Run integration test
         run: go test -v -tags=dockerrequired ./integration/test/docker
