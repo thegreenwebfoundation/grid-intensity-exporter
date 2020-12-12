@@ -1,0 +1,17 @@
+# This is the default provider as it doesn't require an API key. However it only
+# supports the UK region
+gridIntensity:
+  provider: carbonintensity.org.uk
+  region: UK
+
+# This provider supports more countries but you will need an API key from
+# api.electricitymap.org.
+# gridIntensity:
+#   apiToken: your-api-key
+#   provider: electricitymap.org
+#   region: IN-KA
+
+image:
+  repository: thegreenwebfoundation/grid-intensity-exporter
+  tag: latest
+  pullPolicy: IfNotPresent
