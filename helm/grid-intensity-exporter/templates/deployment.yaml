@@ -32,11 +32,6 @@ spec:
             configMapKeyRef:
               name: {{ .Release.Name }}
               key: gridIntensityRegion
-        livenessProbe:
-          httpGet:
-            path: /healthz
-            port: 8000
-          timeoutSeconds: 1
         resources:
           requests:
             cpu: 100m

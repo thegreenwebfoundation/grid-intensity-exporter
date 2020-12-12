@@ -35,7 +35,17 @@ jobs:
         uses: helm/kind-action@v1.1.0
       - 
         name: Load image into Kind cluster
-        run: kind load localhost:5000/grid-intensity-exporter:integration-test
+        run: kind load docker-image localhost:5000/grid-intensity-exporter:integration-test
       - 
         name: Set up Helm
         uses: azure/setup-helm@v1
+      - 
+        name: Helm install
+        run: helm install grid-intensity-exporter helm/grid-intensity-exporter \
+           --set image.repository=localhost:5000/grid-intensity-exporter,image.tag=integration-test
+      - 
+        name: Create port forward to the metrics port
+        uses: kubectl port-forward deployment/grid-intensity-exporter 8000:8000
+      - 
+        name: Run integration test
+        run: go test -v -tags=dockerrequired ./integration/test/docker
