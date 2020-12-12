@@ -34,8 +34,7 @@ jobs:
         uses: azure/setup-helm@v1
       - 
         name: Helm install
-        run: helm install grid-intensity-exporter helm/grid-intensity-exporter \
-           --set image.tag=integration-test
+        run: helm install grid-intensity-exporter helm/grid-intensity-exporter --set image.tag=integration-test
       - 
         name: Set up Kubectl
         uses: azure/setup-kubectl@v1
