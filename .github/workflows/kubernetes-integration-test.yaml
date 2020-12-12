@@ -45,7 +45,7 @@ jobs:
            --set image.repository=localhost:5000/grid-intensity-exporter,image.tag=integration-test
       - 
         name: Create port forward to the metrics port
-        uses: kubectl port-forward deployment/grid-intensity-exporter 8000:8000
+        run: kubectl port-forward deployment/grid-intensity-exporter 8000:8000
       - 
         name: Run integration test
         run: go test -v -tags=dockerrequired ./integration/test/docker
