@@ -4,5 +4,5 @@ gridIntensity:
 
 image:
   repository: "thegreenwebfoundation/grid-intensity-exporter"
-  tag: "0.1.0"
+  tag: "latest"
   pullPolicy: IfNotPresent

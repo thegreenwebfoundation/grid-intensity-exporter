@@ -1,4 +1,5 @@
-![docker-integration-test](https://github.com/thegreenwebfoundation/grid-intensity-exporter/workflows/docker-integration-test/badge.svg)
+![docker-integration-test](https://github.com/thegreenwebfoundation/grid-intensity-exporter/workflows/docker-integration-test/badge.svg) ![k8s-integration-test](https://github.com/thegreenwebfoundation/grid-intensity-exporter/workflows/kubernetes-integration-test/badge.svg) 
+
 
 # grid-intensity-exporter
 
@@ -39,6 +40,24 @@ ELECTRICITY_MAP_API_TOKEN=your-api-token
 GRID_INTENSITY_PROVIDER=gridintensity.org.uk
 GRID_INTENSITY_REGION=UK
 go run main.go
+```
+
+## Docker
+
+Build the Docker image.
+
+```sh
+CGO_ENABLED=0 GOOS=linux go build .
+docker build -t thegreenwebfoundation/grid-intensity-exporter:latest .
+```
+
+## Kubernetes
+
+Install via the Helm chart. Needs the Docker image to be available in the
+cluster.
+
+```sh
+helm install grid-intensity-exporter helm/grid-intensity-exporter
 ```
 
 ## Integration Tests
