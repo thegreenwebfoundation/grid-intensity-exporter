@@ -40,7 +40,7 @@ jobs:
         uses: azure/setup-kubectl@v1
       - 
         name: Wait for ready pod
-        run: kubectl wait --for=condition=ready --label app.kubernetes.io/name=grid-intensity-exporter pod
+        run: kubectl wait --for=condition=ready -l app.kubernetes.io/name=grid-intensity-exporter pod
       - 
         name: Create port forward to metrics port
         run: kubectl port-forward deployment/grid-intensity-exporter 8000:8000 &
