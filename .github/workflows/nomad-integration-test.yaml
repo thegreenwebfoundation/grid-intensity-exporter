@@ -1,0 +1,37 @@
+name: nomad-integration-test
+on: [push]
+jobs:
+  nomad-integration-test:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout code
+        uses: actions/checkout@v2
+      -
+        name: Go build
+        run: CGO_ENABLED=0 GOOS=linux go build .
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      -
+        name: Docker build
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          load: true
+          tags: thegreenwebfoundation/grid-intensity-exporter:integration-test
+      -
+        name: Start running nomad in agent mode
+        uses: dunno/if-there-a-nomad-action@v1.1.0
+      -
+        name: Submit the grid-intensity-exporter.nomad job to nomad
+        uses: dunno/need-help-here-too@v0.0.1
+      -
+        name: Wait for job to start running, somehow
+        uses: dunno/listen-to-some-API-event-i-guess-@v0.0.1
+      -
+        name: Run integration test
+        run: go test -v -tags=dockerrequired ./integration/test/docker
