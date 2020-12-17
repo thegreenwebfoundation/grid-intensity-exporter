@@ -24,9 +24,14 @@ jobs:
           load: true
           tags: thegreenwebfoundation/grid-intensity-exporter:integration-test
       -
-        name: Fetch nomad, so we can run it locally
-        run: HALP
+        name: Add HashiCorp GPG key
+        run: curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
       -
+        name: Add HashiCorp Linux repository
+        run: sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+      -
+        name: Install nomad
+        run: sudo apt-get update && sudo apt-get install nomad
       -
         name: Start running nomad in agent mode, the background it
         run: nomad agent --dev &
