@@ -16,7 +16,7 @@ job "grid-intensity-exporter" {
 
     network {
       # for testing, use host network so integration test can connect
-      mode "host"
+      mode = "host"
 
       # for testing, we can get away with having a fixed port
       # but in production we'd let nomad allocated a port instead
