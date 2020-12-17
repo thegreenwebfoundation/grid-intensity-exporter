@@ -31,7 +31,7 @@ jobs:
         run: sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
       -
         name: Install nomad
-        run: sudo apt-get update && sudo apt-get install nomad
+        run: sudo apt-get update && sudo apt-get install nomad=0.12.7
       -
         name: Start running nomad in agent mode, then background it
         run: nomad agent --dev &
