@@ -24,14 +24,18 @@ jobs:
           load: true
           tags: thegreenwebfoundation/grid-intensity-exporter:integration-test
       -
-        name: Start running nomad in agent mode
-        uses: dunno/if-there-a-nomad-action@v1.1.0
+        name: Fetch nomad, so we can run it locally
+        run: HALP
+      -
+      -
+        name: Start running nomad in agent mode, the background it
+        run: nomad agent --dev &
       -
         name: Submit the grid-intensity-exporter.nomad job to nomad
-        uses: dunno/need-help-here-too@v0.0.1
+        run: nomad run grid-intensity-exporter.nomad
       -
         name: Wait for job to start running, somehow
-        uses: dunno/listen-to-some-API-event-i-guess-@v0.0.1
+        uses: bash ./wait-for-nomad.sh
       -
         name: Run integration test
         run: go test -v -tags=dockerrequired ./integration/test/docker
