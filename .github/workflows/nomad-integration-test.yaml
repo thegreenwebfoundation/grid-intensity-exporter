@@ -37,7 +37,7 @@ jobs:
         run: nomad agent --dev &
       -
         name: Submit the grid-intensity-exporter.nomad job to nomad
-        run: nomad run grid-intensity-exporter.nomad
+        run: nomad run ./nomad/grid-intensity-exporter.nomad
       -
         name: Run integration test
         run: go test -v -tags=dockerrequired ./integration/test/docker

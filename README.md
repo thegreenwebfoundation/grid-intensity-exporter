@@ -1,5 +1,4 @@
-![docker-integration-test](https://github.com/thegreenwebfoundation/grid-intensity-exporter/workflows/docker-integration-test/badge.svg) ![k8s-integration-test](https://github.com/thegreenwebfoundation/grid-intensity-exporter/workflows/kubernetes-integration-test/badge.svg) 
-
+![docker](https://github.com/thegreenwebfoundation/grid-intensity-exporter/workflows/docker-integration-test/badge.svg) ![kubernetes](https://github.com/thegreenwebfoundation/grid-intensity-exporter/workflows/kubernetes-integration-test/badge.svg) ![nomad](https://github.com/thegreenwebfoundation/grid-intensity-exporter/workflows/nomad-integration-test/badge.svg)
 
 # grid-intensity-exporter
 
@@ -58,6 +57,15 @@ cluster.
 
 ```sh
 helm install grid-intensity-exporter helm/grid-intensity-exporter
+```
+
+## Nomad
+
+Start the Nomad job. Needs the Docker image to be available in the
+cluster.
+
+```sh
+nomad run ./nomad/grid-intensity-exporter.nomad
 ```
 
 ## Integration Tests
