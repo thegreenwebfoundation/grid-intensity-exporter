@@ -39,14 +39,5 @@ jobs:
         name: Submit the grid-intensity-exporter.nomad job to nomad
         run: nomad run grid-intensity-exporter.nomad
       -
-        name: Make wait script executable
-        run: chmod +x wait-for-nomad.sh
-      -
-        name: Wait for job to start running, somehow
-        run: ./wait-for-nomad.sh
-      -
-        name: Show nomad status
-        run: nomad job status grid-intensity-exporter 
-      -
         name: Run integration test
         run: go test -v -tags=dockerrequired ./integration/test/docker
