@@ -19,7 +19,8 @@ job "grid-intensity-exporter" {
       # but in production we'd let nomad allocated a port instead
       port "exporter" {
         static = 8000
-        to = 8000 }
+        to = 8000 
+      }
     }
 
     task "grid-intensity-exporter" {
@@ -27,7 +28,7 @@ job "grid-intensity-exporter" {
       driver = "docker"
       
       config {
-        image = "grid-intensity-exporter:integration-test"
+        image = "thegreenwebfoundation/grid-intensity-exporter:integration-test"
         ports = ["exporter"]
       }
     }
