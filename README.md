@@ -5,7 +5,7 @@
 A grid intensity exporter for use with [prometheus]. Designed to be used for
 understanding carbon footprint of compute.
 
-Uses [grid-intensity-go] library to retrieve data from carbon intensity APIs.
+Uses [grid-intensity-go] library to retrieve data from carbon intensity APIs, to cover the most common use case of getting power exclusively from the grid. If you draw power from offgrid sources or batteries please let us know so we can incorproate this in the design too - we're looking for hosts using a set up like this design for it.
 
 ## Usage
 
