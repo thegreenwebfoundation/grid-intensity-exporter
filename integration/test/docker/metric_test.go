@@ -1,3 +1,4 @@
+//go:build dockerrequired
 // +build dockerrequired
 
 package docker
@@ -47,7 +48,7 @@ func Test_GridIntensityMetric(t *testing.T) {
 		t.Fatalf("expected nil got %v", err)
 	}
 
-	expectedMetricText := "grid_intensity_carbon_actual{provider=\"carbonintensity.org.uk\",region=\"UK\"}"
+	expectedMetricText := "grid_intensity_carbon_actual{provider=\"ember-climate.org\",region=\"GBR\"}"
 
 	if !strings.Contains(metrics, expectedMetricText) {
 		t.Fatalf("expected metric text %q not found", expectedMetricText)

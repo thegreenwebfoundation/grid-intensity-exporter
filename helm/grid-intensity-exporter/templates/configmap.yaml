@@ -6,4 +6,6 @@ metadata:
     app.kubernetes.io/name: {{ .Release.Name }}
 data:
   gridIntensityProvider: {{ .Values.gridIntensity.provider | quote }}
+  {{ if .Values.gridIntensity.region }}
   gridIntensityRegion: {{ .Values.gridIntensity.region | quote }}
+  {{ end }}

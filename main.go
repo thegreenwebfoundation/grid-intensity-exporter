@@ -9,14 +9,16 @@ import (
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
-	gridintensity "github.com/thegreenwebfoundation/grid-intensity-go"
+	gridintensity "github.com/thegreenwebfoundation/grid-intensity-go/api"
 	"github.com/thegreenwebfoundation/grid-intensity-go/carbonintensity"
 	"github.com/thegreenwebfoundation/grid-intensity-go/electricitymap"
+	"github.com/thegreenwebfoundation/grid-intensity-go/ember"
 )
 
 const (
 	carbonIntensityProvider = "carbonintensity.org.uk"
 	electricityMapProvider  = "electricitymap.org"
+	emberProvider           = "ember-climate.org"
 
 	labelProvider = "provider"
 	labelRegion   = "region"
@@ -65,6 +67,11 @@ func NewExporter(provider, region string) (*Exporter, error) {
 		if err != nil {
 			return nil, err
 		}
+	case emberProvider:
+		apiClient, err = ember.New()
+		if err != nil {
+			return nil, err
+		}
 	default:
 		return nil, fmt.Errorf("provider %q not supported", provider)
 	}
@@ -81,18 +88,35 @@ func NewExporter(provider, region string) (*Exporter, error) {
 func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 	ctx := context.Background()
 
-	actualIntensity, err := e.apiClient.GetCarbonIntensity(ctx, e.region)
-	if err != nil {
-		log.Printf("failed to get carbon intensity %#v", err)
-	}
+	if e.region == "" {
+		regions, err := e.apiClient.GetAllRegionsCarbonIntensity(ctx)
+		if err != nil {
+			log.Printf("failed to get carbon intensity %#v", err)
+		}
 
-	ch <- prometheus.MustNewConstMetric(
-		actualDesc,
-		prometheus.GaugeValue,
-		actualIntensity,
-		e.provider,
-		e.region,
-	)
+		for region, intensity := range regions {
+			ch <- prometheus.MustNewConstMetric(
+				actualDesc,
+				prometheus.GaugeValue,
+				intensity,
+				e.provider,
+				region,
+			)
+		}
+	} else {
+		actualIntensity, err := e.apiClient.GetCarbonIntensity(ctx, e.region)
+		if err != nil {
+			log.Printf("failed to get carbon intensity %#v", err)
+		}
+
+		ch <- prometheus.MustNewConstMetric(
+			actualDesc,
+			prometheus.GaugeValue,
+			actualIntensity,
+			e.provider,
+			e.region,
+		)
+	}
 }
 
 func (e *Exporter) Describe(ch chan<- *prometheus.Desc) {
@@ -103,11 +127,11 @@ func main() {
 	provider := os.Getenv(providerEnvVar)
 	region := os.Getenv(regionEnvVar)
 
-	// Default provider to carbonintensity.co.uk since it doesn't need API key.
+	// Default provider to Ember since it doesn't need API key.
 	if provider == "" {
-		provider = carbonIntensityProvider
+		provider = emberProvider
 	}
-	// Default region to UK which is the only region supported.
+	// For carbonintensity.org.uk UK is the only region supported.
 	if provider == carbonIntensityProvider && region == "" {
 		region = "UK"
 	}
