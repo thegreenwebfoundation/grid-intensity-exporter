@@ -1,8 +1,13 @@
-# This is the default provider as it doesn't require an API key. However it only
-# supports the UK region
+# This is the default provider with the Ember 2021 dataset.
 gridIntensity:
-  provider: carbonintensity.org.uk
-  region: UK
+  provider: ember-climate.org
+  region: GBR
+
+# This provider doesn't require an API key but it only
+# supports the UK region
+# gridIntensity:
+#   provider: carbonintensity.org.uk
+#   region: UK
 
 # This provider supports more countries but you will need an API key from
 # api.electricitymap.org.
