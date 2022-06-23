@@ -1,8 +1,7 @@
 # This is the default provider with the Ember 2021 dataset.
-# It returns all regions unless a region is provided.
 gridIntensity:
   provider: ember-climate.org
-  # region: ARG
+  region: GBR
 
 # This provider doesn't require an API key but it only
 # supports the UK region

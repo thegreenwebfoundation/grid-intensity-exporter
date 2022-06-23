@@ -88,35 +88,18 @@ func NewExporter(provider, region string) (*Exporter, error) {
 func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 	ctx := context.Background()
 
-	if e.region == "" {
-		regions, err := e.apiClient.GetAllRegionsCarbonIntensity(ctx)
-		if err != nil {
-			log.Printf("failed to get carbon intensity %#v", err)
-		}
-
-		for region, intensity := range regions {
-			ch <- prometheus.MustNewConstMetric(
-				actualDesc,
-				prometheus.GaugeValue,
-				intensity,
-				e.provider,
-				region,
-			)
-		}
-	} else {
-		actualIntensity, err := e.apiClient.GetCarbonIntensity(ctx, e.region)
-		if err != nil {
-			log.Printf("failed to get carbon intensity %#v", err)
-		}
-
-		ch <- prometheus.MustNewConstMetric(
-			actualDesc,
-			prometheus.GaugeValue,
-			actualIntensity,
-			e.provider,
-			e.region,
-		)
+	actualIntensity, err := e.apiClient.GetCarbonIntensity(ctx, e.region)
+	if err != nil {
+		log.Printf("failed to get carbon intensity %#v", err)
 	}
+
+	ch <- prometheus.MustNewConstMetric(
+		actualDesc,
+		prometheus.GaugeValue,
+		actualIntensity,
+		e.provider,
+		e.region,
+	)
 }
 
 func (e *Exporter) Describe(ch chan<- *prometheus.Desc) {

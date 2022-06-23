@@ -27,13 +27,11 @@ spec:
             configMapKeyRef:
               name: {{ .Release.Name }}
               key: gridIntensityProvider
-        {{ if .Values.gridIntensity.region }}
         - name: GRID_INTENSITY_REGION
           valueFrom:
             configMapKeyRef:
               name: {{ .Release.Name }}
               key: gridIntensityRegion
-        {{ end }}
         {{ if .Values.gridIntensity.apiToken }}
         - name: ELECTRICITY_MAP_API_TOKEN
           valueFrom:
