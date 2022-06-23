@@ -5,7 +5,7 @@ go 1.17
 require (
 	github.com/cenkalti/backoff/v4 v4.1.0
 	github.com/prometheus/client_golang v1.8.0
-	github.com/thegreenwebfoundation/grid-intensity-go v0.1.1-0.20220623092809-494afe0b0cf8
+	github.com/thegreenwebfoundation/grid-intensity-go v0.2.0
 )
 
 require (
