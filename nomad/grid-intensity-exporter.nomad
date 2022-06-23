@@ -31,6 +31,10 @@ job "grid-intensity-exporter" {
         image = "thegreenwebfoundation/grid-intensity-exporter:integration-test"
         ports = ["exporter"]
       }
+
+      env {
+        GRID_INTENSITY_REGION = "GBR"
+      }
     }
   }
 }
