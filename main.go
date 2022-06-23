@@ -113,6 +113,10 @@ func main() {
 	// Default provider to Ember since it doesn't need API key.
 	if provider == "" {
 		provider = emberProvider
+
+		if region == "" {
+			log.Fatalf("%#q must be set", regionEnvVar)
+		}
 	}
 	// For carbonintensity.org.uk UK is the only region supported.
 	if provider == carbonIntensityProvider && region == "" {
