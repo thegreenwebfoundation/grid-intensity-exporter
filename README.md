@@ -5,19 +5,37 @@
 A grid intensity exporter for use with [prometheus]. Designed to be used for
 understanding carbon footprint of compute.
 
-Uses [grid-intensity-go] library to retrieve data from carbon intensity APIs, to cover the most common use case of getting power exclusively from the grid. If you draw power from offgrid sources or batteries please let us know so we can incorproate this in the design too - we're looking for hosts using a set up like this design for it.
+Uses [grid-intensity-go] library to retrieve data from carbon intensity APIs, to cover the most common use case of getting power exclusively from the grid. If you draw power from offgrid sources or batteries please let us know so we can incorporate this in the design too - we're looking for hosts using a set up like this design for it.
 
 ## Usage
 
-The exporter currently supports 2 providers. The metrics are exposed on port
+The exporter currently supports 3 providers. The metrics are exposed on port
 8000.
+
+### ember-climate.org
+
+This is the default provider with data from Ember, in accordance with their licensing
+[CC-BY-SA 4.0](https://ember-climate.org/creative-commons/)
+
+```sh
+GRID_INTENSITY_REGION=FR \
+go run main.go
+```
+
+```sh
+curl -s http://localhost:8000/metrics | grep grid
+# HELP grid_intensity_carbon_actual Actual carbon intensity for the electricity grid in this region.
+# TYPE grid_intensity_carbon_actual gauge
+grid_intensity_carbon_actual{provider="ember-climate.org",region="FR"} 67.781
+```
 
 ### carbonintensity.org.uk
 
-This is the default provider as it doesn't require an API key. However it only
-supports the UK region.
+This provider doesn't require an API key and only supports the UK region.
 
 ```sh
+GRID_INTENSITY_PROVIDER=carbonintensity.org.uk \
+GRID_INTENSITY_REGION=UK \
 go run main.go
 ```
 
@@ -35,9 +53,9 @@ This provider supports more countries but you will need an API key from
 [api.electricitymap.org].
 
 ```sh
-ELECTRICITY_MAP_API_TOKEN=your-api-token
-GRID_INTENSITY_PROVIDER=electricitymap.org
-GRID_INTENSITY_REGION=IN-KA
+ELECTRICITY_MAP_API_TOKEN=your-api-token \
+GRID_INTENSITY_PROVIDER=electricitymap.org \
+GRID_INTENSITY_REGION=IN-KA \
 go run main.go
 ```
 
@@ -50,13 +68,19 @@ CGO_ENABLED=0 GOOS=linux go build .
 docker build -t thegreenwebfoundation/grid-intensity-exporter:latest .
 ```
 
+Run the Docker image.
+
+```sh
+docker run -d -p 8000:8000 -e GRID_INTENSITY_REGION=FR thegreenwebfoundation/grid-intensity-exporter:latest
+```
+
 ## Kubernetes
 
 Install via the [helm] chart. Needs the Docker image to be available in the
 cluster.
 
 ```sh
-helm install grid-intensity-exporter helm/grid-intensity-exporter
+helm install --set gridIntensity.region=FR grid-intensity-exporter helm/grid-intensity-exporter
 ```
 
 ## Nomad
