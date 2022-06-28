@@ -85,6 +85,9 @@ helm install --set gridIntensity.region=FR grid-intensity-exporter helm/grid-int
 
 ## Nomad
 
+Edit the Nomad job in `/nomad/grid-intensity-exporter.nomad` to set the
+env vars `GRID_INTENSITY_REGION` and `GRID_INTENSITY_PROVIDER`
+
 Start the Nomad job. Needs the Docker image to be available in the
 cluster.
 
@@ -99,7 +102,7 @@ Build and run the docker container.
 ```sh
 CGO_ENABLED=0 GOOS=linux go build .
 docker build -t grid-intensity-exporter:integration-test .
-docker run -p 8000:8000 grid-intensity-exporter:integration-test
+docker run -e GRID_INTENSITY_REGION=GBR -p 8000:8000 grid-intensity-exporter:integration-test
 ```
 
 Run the integration test.
