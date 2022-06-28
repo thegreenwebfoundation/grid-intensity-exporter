@@ -33,6 +33,7 @@ job "grid-intensity-exporter" {
       }
 
       env {
+        GRID_INTENSITY_PROVIDER = "ember-climate.org"
         GRID_INTENSITY_REGION = "GBR"
       }
     }
